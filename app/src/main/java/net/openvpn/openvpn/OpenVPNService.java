@@ -17,7 +17,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.security.KeyChain;
-import android.support.v4.app.NotificationCompat.Builder;
+import androidx.core.app.NotificationCompat.Builder;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
