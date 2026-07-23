@@ -12,9 +12,10 @@ import android.net.VpnService;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
-import android.support.v4.content.ContextCompat;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.text.method.PasswordTransformationMethod;
 import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
+
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
@@ -39,15 +41,15 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.os.Process;
 import android.widget.TextView.OnEditorActionListener;
+
 import net.openvpn.openvpn.OpenVPNService.Challenge;
 import net.openvpn.openvpn.OpenVPNService.ConnectionStats;
 import net.openvpn.openvpn.OpenVPNService.EventMsg;
 import net.openvpn.openvpn.OpenVPNService.Profile;
 import net.openvpn.openvpn.OpenVPNService.ProfileList;
- 
-public class OpenVPNClient extends OpenVPNClientBase implements OnRequestPermissionsResultCallback, OnClickListener, OnTouchListener, OnItemSelectedListener, OnEditorActionListener {
+
+ public class OpenVPNClient extends OpenVPNClientBase implements ActivityCompat.OnRequestPermissionsResultCallback, OnClickListener, OnTouchListener, OnItemSelectedListener, OnEditorActionListener {
     private static final int REQUEST_IMPORT_PKCS12 = 3;
     private static final int REQUEST_IMPORT_PROFILE = 2;
     private static final int REQUEST_VPN_ACTOR_RIGHTS = 1;
