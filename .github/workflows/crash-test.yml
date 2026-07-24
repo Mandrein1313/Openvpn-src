@@ -43,20 +43,16 @@ jobs:
     - name: Run App on Emulator & Capture Crash Logs
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        api-level: 31
-        target: google_apis
+        api-level: 29
+        target: default
         arch: x86_64
+        disable-animations: true
         script: >
-          echo "⏳ Waiting for Android System & Package Manager...";
-          while [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" != "1" ]; do sleep 2; done;
-          while [ "$(adb shell pm path android | tr -d '\r')" == "" ]; do sleep 2; done;
-          sleep 5;
-          echo "✅ Emulator Services Fully Ready!";
           APK=$(find . -name "*.apk" | head -n 1);
           echo "Found APK = $APK";
-          adb install -r -g --user 0 "$APK";
           PKG=$($ANDROID_HOME/build-tools/34.0.0/aapt dump badging "$APK" | grep package | awk -F"'" '{print $2}');
           echo "Detected Package Name = $PKG";
+          adb install "$APK";
           adb logcat -c;
           adb shell monkey -p "$PKG" -c android.intent.category.LAUNCHER 1;
           sleep 12;
