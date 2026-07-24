@@ -1,4 +1,7 @@
-name: Android Crash Test
+name: 🩺 Android Crash Analysis
+
+# กำหนดชื่อหัวข้อการรันให้ชัดเจนในหน้า Actions
+run-name: 🔍 Crash Test - ${{ github.event.head_commit.message }}
 
 on:
   push:
@@ -7,6 +10,7 @@ on:
 
 jobs:
   test-crash:
+    name: 🧪 Run Emulator & Catch Logcat
     runs-on: ubuntu-latest
 
     steps:
