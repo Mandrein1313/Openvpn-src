@@ -93,7 +93,7 @@ public class FileDialog extends ListActivity {
         newButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 FileDialog.this.setCreateVisible(v);
-                FileDialog.this.mFileName.setText(BuildConfig.FLAVOR);
+                FileDialog.this.mFileName.setText("");
                 FileDialog.this.mFileName.requestFocus();
             }
         });
@@ -208,16 +208,16 @@ public class FileDialog extends ListActivity {
                 }
             }
         }
-        item.addAll(dirsMap.tailMap(BuildConfig.FLAVOR).values());
+        item.addAll(dirsMap.tailMap("").values());
         List<String> list = item;
-        list.addAll(filesMap.tailMap(BuildConfig.FLAVOR).values());
-        this.path.addAll(dirsPathMap.tailMap(BuildConfig.FLAVOR).values());
-        this.path.addAll(filesPathMap.tailMap(BuildConfig.FLAVOR).values());
+        list.addAll(filesMap.tailMap("").values());
+        this.path.addAll(dirsPathMap.tailMap("").values());
+        this.path.addAll(filesPathMap.tailMap("").values());
         SimpleAdapter fileList = new SimpleAdapter(this, this.mList, R.layout.file_dialog_row, new String[]{ITEM_KEY, ITEM_IMAGE}, new int[]{R.id.fdrowtext, R.id.fdrowimage});
-        for (String dir : dirsMap.tailMap(BuildConfig.FLAVOR).values()) {
+        for (String dir : dirsMap.tailMap("").values()) {
             addItem(dir, R.drawable.file_dialog_folder);
         }
-        for (String file2 : filesMap.tailMap(BuildConfig.FLAVOR).values()) {
+        for (String file2 : filesMap.tailMap("").values()) {
             addItem(file2, R.drawable.file_dialog_file);
         }
         fileList.notifyDataSetChanged();

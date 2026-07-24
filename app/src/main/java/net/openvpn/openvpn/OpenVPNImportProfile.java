@@ -116,7 +116,7 @@ public class OpenVPNImportProfile extends OpenVPNClientBase implements OnClickLi
     private void clear_auth() {
         EditText password_edit = (EditText) findViewById(R.id.password);
         if (password_edit != null) {
-            password_edit.setText(BuildConfig.FLAVOR);
+            password_edit.setText("");
         }
     }
 

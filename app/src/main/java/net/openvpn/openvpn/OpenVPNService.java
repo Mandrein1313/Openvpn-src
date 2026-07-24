@@ -320,7 +320,7 @@ public class OpenVPNService extends VpnService implements Callback, net.openvpn.
             e.res_id = R.string.disconnected;
             e.icon_res_id = R.drawable.disconnected;
             e.name = "DISCONNECTED";
-            e.info = BuildConfig.FLAVOR;
+            e.info = "";
             return e;
         }
 
@@ -709,7 +709,7 @@ public class OpenVPNService extends VpnService implements Callback, net.openvpn.
             Object[] objArr;
             if (location.equals("bundled")) {
                 storage_title = "assets";
-                fnlist = OpenVPNService.this.getResources().getAssets().list(BuildConfig.FLAVOR);
+                fnlist = OpenVPNService.this.getResources().getAssets().list("");
                 filename_is_url_encoded_profile_name = true;
             } else {
                 if (location.equals("imported")) {
@@ -1748,7 +1748,7 @@ public class OpenVPNService extends VpnService implements Callback, net.openvpn.
 
     public void network_pause() {
         if (this.active) {
-            this.mThread.pause(BuildConfig.FLAVOR);
+            this.mThread.pause("");
         }
     }
 
@@ -1864,7 +1864,7 @@ public class OpenVPNService extends VpnService implements Callback, net.openvpn.
         if (extra_info != null) {
             evm.info = extra_info;
         } else {
-            evm.info = BuildConfig.FLAVOR;
+            evm.info = "";
         }
         if ((evm.flags & 4) != 0) {
             evm.expires = SystemClock.elapsedRealtime() + 60000;
@@ -1923,13 +1923,13 @@ public class OpenVPNService extends VpnService implements Callback, net.openvpn.
                                 dc.challenge.echo = dcsrc.getEcho();
                                 dc.challenge.response_required = dcsrc.getResponseRequired();
                                 this.current_profile.dynamic_challenge = dc;
-                                evm.info = BuildConfig.FLAVOR;
+                                evm.info = "";
                                 break;
                             }
                         }
                         break;
                     case R.string.pem_password_fail /*2131034268*/:
-                        evm.info = BuildConfig.FLAVOR;
+                        evm.info = "";
                         if (this.current_profile != null) {
                             this.current_profile.get_name();
                             break;

@@ -511,7 +511,7 @@ import net.openvpn.openvpn.OpenVPNService.ProfileList;
             if (sec == 0) {
                 return resString(R.string.lpr_lt_1_sec_ago);
             }
-            return BuildConfig.FLAVOR;
+            return "";
         }
     }
  
@@ -526,10 +526,10 @@ import net.openvpn.openvpn.OpenVPNService.ProfileList;
     }
  
     private void clear_stats() {
-        this.last_pkt_recv_view.setText(BuildConfig.FLAVOR);
-        this.duration_view.setText(BuildConfig.FLAVOR);
-        this.bytes_in_view.setText(BuildConfig.FLAVOR);
-        this.bytes_out_view.setText(BuildConfig.FLAVOR);
+        this.last_pkt_recv_view.setText("");
+        this.duration_view.setText("");
+        this.bytes_in_view.setText("");
+        this.bytes_out_view.setText("");
         reset_conn_info();
     }
  
@@ -562,10 +562,10 @@ import net.openvpn.openvpn.OpenVPNService.ProfileList;
     }
  
     private void clear_auth() {
-        this.username_edit.setText(BuildConfig.FLAVOR);
-        this.pk_password_edit.setText(BuildConfig.FLAVOR);
-        this.password_edit.setText(BuildConfig.FLAVOR);
-        this.response_edit.setText(BuildConfig.FLAVOR);
+        this.username_edit.setText("");
+        this.pk_password_edit.setText("");
+        this.password_edit.setText("");
+        this.response_edit.setText("");
     }
  
     private void ui_setup(boolean active, int flags, String profile_override) {
