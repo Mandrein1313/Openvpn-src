@@ -46,30 +46,4 @@ jobs:
         api-level: 31
         target: google_apis
         arch: x86_64
-        script: |
-          echo "📲 กำลังค้นหาไฟล์ APK..."
-          APK_PATH=$(find . -name "*.apk" | head -n 1)
-          echo "พบไฟล์ APK ที่: $APK_PATH"
-          
-          if [ -z "$APK_PATH" ]; then
-            echo "❌ ไม่พบไฟล์ APK ในระบบ!"
-            exit 1
-          fi
-          
-          echo "📲 กำลังติดตั้ง APK..."
-          adb install "$APK_PATH"
-          
-          echo "🧹 เคลียร์ Logcat..."
-          adb logcat -c
-          
-          echo "🚀 สั่งเปิดแอป OpenVPN..."
-          adb shell am start -n net.openvpn.openvpn/net.openvpn.openvpn.OpenVPNClient
-          
-          echo "⏳ รอแอปทำงาน (10 วินาที)..."
-          sleep 10
-          
-          echo "=========================================="
-          echo "🔥 CRASH / FATAL ERROR LOGS FROM EMULATOR 🔥"
-          echo "=========================================="
-          adb logcat -d *:E | grep -E "AndroidRuntime|FATAL|Exception|Caused by" || echo "ไม่พบอาการ Crash ในช่วงเวลาที่ทดสอบ"
-          echo "=========================================="
+        script: APK=$(find . -name "*.apk" | head -n 1); echo "Found APK: $APK"; adb install "$APK"; adb logcat -c; adb shell am start -n net.openvpn.openvpn/net.openvpn.openvpn.OpenVPNClient; sleep 10; echo "=========================================="; echo "🔥 CRASH / FATAL ERROR LOGS FROM EMULATOR 🔥"; echo "=========================================="; adb logcat -d *:E | grep -E "AndroidRuntime|FATAL|Exception|Caused by" || echo "No crash detected"
