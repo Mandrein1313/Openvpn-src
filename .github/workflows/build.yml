@@ -27,7 +27,6 @@ jobs:
       with:
         gradle-version: '8.13'
 
-    # เพิ่มตรงนี้
     - name: Remove old BuildConfig.java
       run: |
         find . -path "*/src/main/java/*/BuildConfig.java" -delete
@@ -41,6 +40,41 @@ jobs:
       run: |
         gradle clean assembleDebug --no-daemon --build-cache
 
+    # ==========================================
+    # ส่วนที่เพิ่มเข้ามา: รัน Emulator และดัก Logcat ตอน Crash
+    # ==========================================
+    - name: Run App on Emulator & Capture Crash Logs
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 31
+        target: google_apis
+        arch: x86_64
+        script: |
+          echo "📲 Installing APK onto Emulator..."
+          # ค้นหาไฟล์ debug APK ที่สร้างได้แล้วสั่งติดตั้ง
+          APK_PATH=$(find app/build/outputs/apk/debug -name "*.apk" | head -n 1)
+          adb install "$APK_PATH"
+          
+          echo "🧹 Clearing old logcat..."
+          adb logcat -c
+          
+          echo "🚀 Launching OpenVPN Client App..."
+          # สั่งเปิดหน้า Main Activity
+          adb shell am start -n net.openvpn.openvpn/net.openvpn.openvpn.OpenVPNClient
+          
+          echo "⏳ Waiting for app response (10s)..."
+          sleep 10
+          
+          echo "=========================================="
+          echo "🔥 CRASH / FATAL ERROR LOGS FROM EMULATOR 🔥"
+          echo "=========================================="
+          # ดึงเฉพาะ log สัญญาณระดับ Error / Exception ขึ้นมาโชว์
+          adb logcat -d *:E | grep -E "AndroidRuntime|FATAL|Exception|Caused by" || echo "No crash detected during execution!"
+          echo "=========================================="
+
+    # ==========================================
+    # ส่วนเดิม: สร้าง Release Upload APK
+    # ==========================================
     - name: Generate Timestamp
       id: timestamp
       run: echo "timestamp=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
