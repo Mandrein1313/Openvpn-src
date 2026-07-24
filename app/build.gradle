@@ -1,0 +1,58 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace "net.openvpn.openvpn"
+
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "net.openvpn.openvpn"
+        minSdk 23
+        targetSdk 35
+
+        versionCode 96
+        versionName "1.1.27"
+
+        buildConfigField "String", "FLAVOR", "\"\""
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+}
+
+dependencies {
+
+    implementation fileTree(
+            dir: 'libs',
+            include: ['*.jar']
+    )
+
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.annotation:annotation:1.8.2'
+    implementation 'androidx.core:core:1.13.1'
+
+}
