@@ -47,23 +47,17 @@ jobs:
         target: google_apis
         arch: x86_64
         script: >
-          echo "⏳ รอระบบ Emulator บูตเครื่องจนเสร็จสมบูรณ์...";
+          echo "⏳ Waiting for emulator boot...";
           while [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" != "1" ]; do sleep 2; done;
-          echo "✅ Emulator พร้อมใช้งาน!";
-          
+          echo "✅ Emulator Booted!";
           APK=$(find . -name "*.apk" | head -n 1);
           echo "Found APK = $APK";
-          
           adb install -r -g "$APK";
-          
           PKG=$($ANDROID_HOME/build-tools/34.0.0/aapt dump badging "$APK" | grep package | awk -F"'" '{print $2}');
           echo "Detected Package Name = $PKG";
-          
           adb logcat -c;
           adb shell monkey -p "$PKG" -c android.intent.category.LAUNCHER 1;
-          
           sleep 12;
-          
           echo "==========================================";
           echo "ALL ERROR LOGS FOR THIS APP";
           echo "==========================================";
