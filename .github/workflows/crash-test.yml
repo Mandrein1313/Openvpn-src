@@ -9,7 +9,7 @@ on:
 
 jobs:
   test-crash:
-    name: 🧪 Run Emulator & Catch Logcat
+    name: 🧪 Run Emulator & Capture Crash Logs
     runs-on: ubuntu-latest
 
     steps:
@@ -47,12 +47,14 @@ jobs:
         target: google_apis
         arch: x86_64
         script: >
-          echo "⏳ Waiting for emulator boot...";
+          echo "⏳ Waiting for Android System & Package Manager...";
           while [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" != "1" ]; do sleep 2; done;
-          echo "✅ Emulator Booted!";
+          while [ "$(adb shell pm path android | tr -d '\r')" == "" ]; do sleep 2; done;
+          sleep 5;
+          echo "✅ Emulator Services Fully Ready!";
           APK=$(find . -name "*.apk" | head -n 1);
           echo "Found APK = $APK";
-          adb install -r -g "$APK";
+          adb install -r -g --user 0 "$APK";
           PKG=$($ANDROID_HOME/build-tools/34.0.0/aapt dump badging "$APK" | grep package | awk -F"'" '{print $2}');
           echo "Detected Package Name = $PKG";
           adb logcat -c;
