@@ -1,0 +1,32 @@
+    - name: Run App on Emulator & Capture Crash Logs
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 31
+        target: google_apis
+        arch: x86_64
+        script: |
+          echo "📲 ค้นหาและติดตั้ง APK..."
+          APK_PATH=$(find app/build/outputs/apk/debug -name "*.apk" | head -n 1)
+          echo "พบไฟล์ APK ที่: $APK_PATH"
+          
+          if [ -z "$APK_PATH" ]; then
+            echo "❌ ไม่พบไฟล์ APK ในระบบ!"
+            exit 1
+          fi
+          
+          adb install "$APK_PATH"
+          
+          echo "🧹 เคลียร์ Logcat..."
+          adb logcat -c
+          
+          echo "🚀 เปิดแอป OpenVPN Client..."
+          adb shell am start -n net.openvpn.openvpn/net.openvpn.openvpn.OpenVPNClient
+          
+          echo "⏳ รอแอปทำงาน (10 วินาที)..."
+          sleep 10
+          
+          echo "=========================================="
+          echo "🔥 CRASH / FATAL ERROR LOGS FROM EMULATOR 🔥"
+          echo "=========================================="
+          adb logcat -d *:E | grep -E "AndroidRuntime|FATAL|Exception|Caused by" || echo "ไม่พบอาการ Crash ในช่วงเวลาที่ทดสอบ"
+          echo "=========================================="
