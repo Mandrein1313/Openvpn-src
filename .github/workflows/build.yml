@@ -27,8 +27,19 @@ jobs:
       with:
         gradle-version: '8.13'
 
+    # เพิ่มตรงนี้
+    - name: Remove old BuildConfig.java
+      run: |
+        find . -path "*/src/main/java/*/BuildConfig.java" -delete
+
+    - name: Setup AndroidX
+      run: |
+        echo "android.useAndroidX=true" >> gradle.properties
+        echo "android.enableJetifier=true" >> gradle.properties
+
     - name: Clean & Build Debug APK
-      run: gradle clean assembleDebug --no-daemon --build-cache
+      run: |
+        gradle clean assembleDebug --no-daemon --build-cache
 
     - name: Generate Timestamp
       id: timestamp
