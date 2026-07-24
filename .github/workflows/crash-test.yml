@@ -49,11 +49,12 @@ jobs:
         script: >
           APK=$(find . -name "*.apk" | head -n 1);
           echo "Found APK = $APK";
-          adb install "$APK";
+          adb wait-for-device;
+          adb install -r -g "$APK";
           PKG=$($ANDROID_HOME/build-tools/34.0.0/aapt dump badging "$APK" | grep package | awk -F"'" '{print $2}');
           echo "Detected Package Name = $PKG";
           adb logcat -c;
-          adb shell monkey -p "$PKG" -c android.intent.category.LAUNCHER 1;
+          adb shell am start -n net.openvpn.openvpn/net.openvpn.openvpn.OpenVPNClient || adb shell monkey -p "$PKG" -c android.intent.category.LAUNCHER 1;
           sleep 12;
           echo "==========================================";
           echo "ALL ERROR LOGS FOR THIS APP";
