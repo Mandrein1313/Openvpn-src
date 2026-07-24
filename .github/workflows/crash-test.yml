@@ -50,7 +50,8 @@ jobs:
           APK=$(find . -name "*.apk" | head -n 1);
           echo "Found APK = $APK";
           adb install "$APK";
-          PKG="net.openvpn.openvpn";
+          PKG=$($ANDROID_HOME/build-tools/34.0.0/aapt dump badging "$APK" | grep package | awk -F"'" '{print $2}');
+          echo "Detected Package Name = $PKG";
           adb logcat -c;
           adb shell monkey -p "$PKG" -c android.intent.category.LAUNCHER 1;
           sleep 12;
