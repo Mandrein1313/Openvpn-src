@@ -811,9 +811,10 @@ public class OpenVPNClient extends OpenVPNClientBase
                 .show();
     }
 
-    private void ok_dialog(String title, String message) {
-        ok_dialog(title, message, null);
-    }
+    protected void ok_dialog(String title, String message) {
+    ok_dialog(title, message, null);
+}
+
 
     private void launch_create_profile_shortcut_dialog(final String prof_name) {
         View view = getLayoutInflater().inflate(R.layout.create_shortcut_dialog, null);
